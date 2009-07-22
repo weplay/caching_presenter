@@ -63,6 +63,13 @@ describe CachingPresenter do
     presenter.class.should == BlankPresenter
   end
   
+  it "should allow adding methods to CachingPresenter without blowing up" do
+    CachingPresenter.class_eval do
+      def foo_bar
+      end
+    end
+  end
+  
   it "should raise an error when an unknown option is used to declare what a presenter presents on" do
     lambda {
       Class.new(CachingPresenter) do

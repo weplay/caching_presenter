@@ -97,6 +97,8 @@ class CachingPresenter
     end
     
     def method_added(method_name)
+      metaclass = class << self; self; end
+      return unless metaclass.ancestors.include?(CachingPresenter::Memoizable)
       memoize method_name.to_s
     end
   end
