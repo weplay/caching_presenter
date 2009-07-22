@@ -58,6 +58,11 @@ describe CachingPresenter do
     end
   end
   
+  it "should not undefine class when not presenting an object" do
+    presenter = BlankPresenter.new
+    presenter.class.should == BlankPresenter
+  end
+  
   it "should raise an error when an unknown option is used to declare what a presenter presents on" do
     lambda {
       Class.new(CachingPresenter) do

@@ -7,10 +7,7 @@ class CachingPresenter
   VERSION = "0.8.0"
 
   alias :presenter_class :class
-  %w(class id to_param).each do |method|
-    undef_method method if respond_to?(method)
-  end
-  
+
   def ==(other)
     if other.is_a?(CachingPresenter) && self.presenter_class == other.presenter_class
       instance_variables.sort.map{ |ivar| instance_variable_get(ivar) } == other.instance_variables.sort.map{ |ivar| other.instance_variable_get(ivar) }
@@ -35,6 +32,9 @@ class CachingPresenter
         options = args.last.is_a?(Hash) ? args.pop : {}
         @cached_instance_methods = Hash.new{ |h,k| h[k] = {}}
         write_constructor :presents => @presents, :options => options
+        %w(class id to_param).each do |method|
+          undef_method method if respond_to?(method)
+        end
       else
         @presents
       end
