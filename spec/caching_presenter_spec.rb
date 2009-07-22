@@ -1,5 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
 
+class BlankPresenter < CachingPresenter
+end
+
 class SingleObject ; end
 class SingleObjectPresenter < CachingPresenter
   extend Forwardable  
@@ -67,6 +70,11 @@ describe CachingPresenter do
     foo = stub("foo", :something_crazy => "yes")
     presenter = SingleObjectPresenter.new(:foo => foo)
     presenter.should respond_to(:something_crazy)
+  end
+  
+  it "should not delegate respond_to? when not presenting an object" do
+    presenter = BlankPresenter.new
+    presenter.should_not respond_to(:yargle_bargle)
   end
   
   it "should automatically delegate methods that exist on the object being presented to that object" do

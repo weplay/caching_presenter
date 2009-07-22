@@ -19,10 +19,6 @@ class CachingPresenter
     end
   end
   
-  def respond_to?(*args)
-    super || presents.respond_to?(*args)
-  end
-  
   def accepts?(name)
     @accepts.include?(name.to_sym)
   end
@@ -92,6 +88,10 @@ class CachingPresenter
           else
             super
           end
+        end
+
+        def respond_to?(*args)
+          super || presents.respond_to?(*args)
         end
       EOS
     end
